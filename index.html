@@ -345,7 +345,7 @@
       }
 
       function AudioCell(props) {
-        const { src, width } = props;
+        const { src, width, highlight } = props;
         const theme = useTheme();
         const container = React.useRef(null);
         const spectrogram = React.useRef(null);
@@ -365,15 +365,15 @@
               progressColor: theme.palette.primary.main,
               cursorColor: theme.palette.text.default,
               responsive: true,
-              height: 32,
+              height: 48,
               plugins: [
                 WaveSurfer.spectrogram.create({
                   wavesurfer: wavesurfer,
                   container: spectrogram.current,
-                  height: 48,
+                  height: 80,
                   fftSamples: 1024,
                   frequencyMin: 0,
-                  frequencyMax: 2048,
+                  frequencyMax: 3072,
                   colorMap: magmaColorMap,
                 }),
               ],
@@ -389,6 +389,7 @@
             });
             wavesurfer.on("finish", () => {
               setWaveIsPlaying(false);
+              setWaveCurrentTime(wavesurfer.getCurrentTime());
             });
             wavesurfer.on("seek", () => {
               setWaveCurrentTime(wavesurfer.getCurrentTime());
@@ -425,7 +426,15 @@
         };
 
         return (
-          <TableCell sx={{ width: `${width}px`, overflow: "hidden" }}>
+          <TableCell
+            sx={{
+              width: `${width}px`,
+              overflow: "hidden",
+              backgroundColor: highlight
+                ? "rgb(165, 214, 255, .1) !important"
+                : undefined,
+            }}
+          >
             <Stack>
               <Stack sx={{ flexDirection: "row", alignItems: "center" }}>
                 <Typography
@@ -496,20 +505,26 @@
             <Paper elevation={1}>
               <TableContainer>
                 <Table sx={{ width: "100%" }} size="small">
+                  <caption>
+                    <sup>*</sup>GT: Ground Truth
+                  </caption>
                   <TableHead>
                     <TableRow>
                       <TableCell align="center">Source</TableCell>
                       <TableCell align="center">Target</TableCell>
                       <TableCell align="center">
-                        Ground-Truth (Source)
+                        Source GT<sup>*</sup>
                       </TableCell>
                       <TableCell align="center">
-                        Ground-Truth (Target)
+                        Target GT<sup>*</sup>
                       </TableCell>
-                      <TableCell align="center">ACVC (Ours)</TableCell>
-                      <TableCell align="center">AutoVC</TableCell>
-                      <TableCell align="center">VQVC</TableCell>
-                      <TableCell align="center">AgainVC</TableCell>
+                      <TableCell
+                        align="center"
+                        sx={{ background: "rgb(165, 214, 255, .1) !important" }}
+                      >
+                        ACVC (Ours)
+                      </TableCell>
+                      <TableCell align="center">AutoVC (Baseline)</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -519,9 +534,7 @@
                       const src_wav = d[2][0];
                       const tgt_wav = d[2][1];
                       const acvc_wav = d[2][2];
-                      const vqvc_wav = d[2][3];
                       const autovc_wav = d[2][4];
-                      const againvc_wav = d[2][5];
 
                       const row_key = `${src_lang}-${tgt_lang}-${src_wav}-${tgt_wav}`;
 
@@ -533,12 +546,10 @@
                           <TableCell align="center">
                             {tgt_lang.toUpperCase()}
                           </TableCell>
-                          <AudioCell src={src_wav} width={200} />
-                          <AudioCell src={tgt_wav} width={200} />
-                          <AudioCell src={acvc_wav} width={200} />
-                          <AudioCell src={autovc_wav} width={200} />
-                          <AudioCell src={vqvc_wav} width={200} />
-                          <AudioCell src={againvc_wav} width={200} />
+                          <AudioCell src={src_wav} width={300} />
+                          <AudioCell src={tgt_wav} width={300} />
+                          <AudioCell src={acvc_wav} width={300} highlight />
+                          <AudioCell src={autovc_wav} width={300} />
                         </TableRow>
                       );
                     })}
