@@ -44,8 +44,9 @@
 
     <!-- WaveSurfer Spectrogram Plugin -->
     <script 
-      src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.spectrogram.min.js"
+      src="https://cdn.jsdelivr.net/npm/@wavesurfer/spectrogram@7/dist/spectrogram.min.js"
     ></script>
+
 
     <!-- Google Fonts -->
     <link
@@ -388,7 +389,7 @@
               responsive: true,
               height: 48,
               plugins: [
-                WaveSurfer.Spectrogram.create({
+                Spectrogram.create({  // 변경된 부분!
                   container: spectrogram.current,
                   height: 80,
                   fftSamples: 1024,
@@ -398,6 +399,7 @@
                 }),
               ],
             });
+            
             wavesurfer.on("audioprocess", () => {
               setWaveCurrentTime(wavesurfer.getCurrentTime());
             });
