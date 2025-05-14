@@ -389,7 +389,7 @@
               responsive: true,
               height: 48,
               plugins: [
-                Spectrogram.create({  // 변경된 부분!
+                WaveSurfer.spectrogram.create({ 
                   container: spectrogram.current,
                   height: 80,
                   fftSamples: 1024,
@@ -398,7 +398,7 @@
                   colorMap: magmaColorMap,
                 }),
               ],
-            });
+            
             
             wavesurfer.on("audioprocess", () => {
               setWaveCurrentTime(wavesurfer.getCurrentTime());
