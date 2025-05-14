@@ -37,36 +37,15 @@
     ></script>
 
     <!-- WaveSurfer.js -->
-    <script src="https://unpkg.com/wavesurfer.js@7.9.5/dist/wavesurfer.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/wavesurfer.js@7.9.5/dist/wavesurfer.min.js"
+      crossorigin="anonymous"
+    ></script>
 
-    <!-- Spectrogram Plugin -->
-    <script src="https://unpkg.com/wavesurfer.js@7.9.5/dist/plugin/wavesurfer.spectrogram.min.js"></script>
-
-    <script>
-      // 플러그인 스크립트가 로드된 후에 실행
-      document.addEventListener('DOMContentLoaded', function () {
-        if (WaveSurfer && WaveSurfer.Spectrogram) {
-          WaveSurfer.registerPlugin(WaveSurfer.Spectrogram);
-
-          const wavesurfer = WaveSurfer.create({
-            container: '#waveform',
-            waveColor: '#A8DBA8',
-            progressColor: '#3B8686',
-            plugins: [
-              WaveSurfer.Spectrogram.create({
-                container: '#spectrogram',
-                labels: true
-              })
-            ]
-          });
-
-          wavesurfer.load('https://www.kozco.com/tech/piano2-CoolEdit.mp3');
-
-        } else {
-          console.error('Spectrogram plugin is not loaded.');
-        }
-      });
-    </script>
+    <!-- WaveSurfer Spectrogram Plugin -->
+    <script 
+      src="https://unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.spectrogram.min.js"
+    ></script>
 
     <!-- Google Fonts -->
     <link
@@ -402,7 +381,7 @@
           if (container.current && spectrogram.current && WaveSurfer) {
 
             WaveSurfer.registerPlugin(WaveSurfer.Spectrogram);
-
+                
             const wavesurfer = WaveSurfer.create({
               container: container.current,
               waveColor: "#888",
