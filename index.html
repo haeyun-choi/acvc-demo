@@ -379,8 +379,6 @@
 
         React.useEffect(() => {
           if (container.current && spectrogram.current && WaveSurfer) {
-
-            WaveSurfer.registerPlugin(WaveSurfer.Spectrogram);
                 
             const wavesurfer = WaveSurfer.create({
               container: container.current,
